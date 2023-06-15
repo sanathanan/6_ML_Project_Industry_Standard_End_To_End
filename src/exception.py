@@ -1,5 +1,6 @@
 import sys
 import logging
+from src.logger import logging
 
 """
 This function will get "error" and display the error message using 'sys' module.
