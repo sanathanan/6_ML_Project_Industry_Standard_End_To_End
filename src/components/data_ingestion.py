@@ -7,10 +7,13 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformationCofig
+from src.components.data_transformation import DataTransformation
+
 
 """
 In Data_Ingestion, if we required any input (i.e path for training_data, test_data, raw_data and so on). 
-We will give through this 'Data_Ingestion class'.
+We will give through this 'DataIngestionConfig' class.
 """
 @dataclass
 class DataIngestionConfig:
@@ -24,7 +27,9 @@ class DataIngestion:
         self.ingestion_config = DataIngestionConfig()
 
     """
-    Reading data from source location.
+    Reading data from source location and
+    saving the raw data, train data and test data to their
+    respective path as defined in 'DataIngestionConfig'.
     """
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
@@ -53,7 +58,6 @@ class DataIngestion:
 
             return (
                 self.ingestion_config.train_data_path,
-                self.ingestion_config.test_data_path,
                 self.ingestion_config.test_data_path
             )
         except Exception as e:
@@ -62,4 +66,7 @@ class DataIngestion:
 
 if __name__ == '__main__':
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data, test_data = obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    data_transformation.initiate_data_transformation(train_data,  test_data)
